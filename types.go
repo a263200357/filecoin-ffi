@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"sort"
 
-	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/specs-actors/actors/runtime/proof"
-	"github.com/ipfs/go-cid"
+	spproof "fil_integrate/build/proof"
+	"fil_integrate/build/state-types/abi"
+	"fil_integrate/build/cid"
 )
 
 // BLS
@@ -58,7 +58,7 @@ type SortedPrivateSectorInfo struct {
 
 func newSortedPublicSectorInfo(sectorInfo ...publicSectorInfo) SortedPublicSectorInfo {
 	fn := func(i, j int) bool {
-		return bytes.Compare(sectorInfo[i].SealedCID.Bytes(), sectorInfo[j].SealedCID.Bytes()) == -1
+		return bytes.Compare(sectorInfo[i].SealedCID[:], sectorInfo[j].SealedCID[:]) == -1
 	}
 
 	sort.Slice(sectorInfo[:], fn)
@@ -90,7 +90,7 @@ func (s *SortedPublicSectorInfo) UnmarshalJSON(b []byte) error {
 // NewSortedPrivateSectorInfo returns a SortedPrivateSectorInfo
 func NewSortedPrivateSectorInfo(sectorInfo ...PrivateSectorInfo) SortedPrivateSectorInfo {
 	fn := func(i, j int) bool {
-		return bytes.Compare(sectorInfo[i].SealedCID.Bytes(), sectorInfo[j].SealedCID.Bytes()) == -1
+		return bytes.Compare(sectorInfo[i].SealedCID[:], sectorInfo[j].SealedCID[:]) == -1
 	}
 
 	sort.Slice(sectorInfo[:], fn)
@@ -116,12 +116,12 @@ func (s *SortedPrivateSectorInfo) UnmarshalJSON(b []byte) error {
 
 type publicSectorInfo struct {
 	PoStProofType abi.RegisteredPoStProof
-	SealedCID     cid.Cid
+	SealedCID     cid.Commit
 	SectorNum     abi.SectorNumber
 }
 
 type PrivateSectorInfo struct {
-	proof.SectorInfo
+	spproof.SectorInfo
 	CacheDirPath     string
 	PoStProofType    abi.RegisteredPoStProof
 	SealedSectorPath string

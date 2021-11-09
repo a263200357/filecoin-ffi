@@ -9,7 +9,7 @@ $(DEPS): .install-filcrypto  ;
 
 .install-filcrypto: rust
 	go clean -cache -testcache .
-	./install-filcrypto
+	bash ./install-filcrypto
 	@touch $@
 
 clean:

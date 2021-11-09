@@ -7,9 +7,7 @@ use ffi_toolkit::{c_str_to_pbuf, c_str_to_rust_str};
 use filecoin_proofs_api::{PrivateReplicaInfo, PublicReplicaInfo, SectorId};
 
 use super::types::{fil_PrivateReplicaInfo, fil_PublicReplicaInfo, fil_RegisteredPoStProof};
-use crate::proofs::types::{
-    fil_PartitionSnarkProof, fil_PoStProof, PartitionSnarkProof, PoStProof,
-};
+use crate::proofs::types::{fil_PoStProof, PoStProof};
 
 #[derive(Debug, Clone)]
 struct PublicReplicaInfoTmp {
@@ -55,6 +53,102 @@ pub unsafe fn to_public_replica_info_map(
 
     Ok(map)
 }
+
+#[allow(clippy::type_complexity)]
+pub unsafe fn to_public_replica_infos_map(
+    replicas_ptr: *const fil_PublicReplicaInfo,
+    arr_ptr: *const libc::size_t,
+    arr_len: libc::size_t,
+) -> Result<Vec<BTreeMap<SectorId, PublicReplicaInfo>>> {
+
+    ensure!(!replicas_ptr.is_null(), "replicas_ptr must not be null");
+    ensure!(!arr_ptr.is_null(), "arr_ptr must not be null");
+
+    let mut replicas = Vec::new();
+    let mut replicas_len:usize = 0;
+    let mut public_replica_infos = Vec::new();
+
+    let arr = std::slice::from_raw_parts(arr_ptr, arr_len);
+
+    for replica_len in arr.iter() {
+        replicas_len += replica_len;
+    }
+
+    for ffi_info in from_raw_parts(replicas_ptr, replicas_len) {
+        replicas.push(PublicReplicaInfoTmp {
+            sector_id: ffi_info.sector_id,
+            registered_proof: ffi_info.registered_proof,
+            comm_r: ffi_info.comm_r,
+        });
+    }
+
+    let mut start = 0;
+    let mut end = 0;
+    for replica_len in arr.iter() {
+        let mut pub_replica_info: BTreeMap<SectorId, PublicReplicaInfo> = BTreeMap::new();
+        end += replica_len;
+        for index in start..end {
+            let PublicReplicaInfoTmp {
+                registered_proof,
+                comm_r,
+                sector_id,
+            } = replicas[index as usize];
+            pub_replica_info.insert(SectorId::from(sector_id), PublicReplicaInfo::new(registered_proof.into(), comm_r));
+        }
+        public_replica_infos.push(pub_replica_info);
+        start += replica_len;
+    }
+
+    Ok(public_replica_infos)
+}
+
+// #[allow(clippy::type_complexity)]
+// pub unsafe fn get_public_replicas(
+//     replicas_ptr: *const *const fil_PublicReplicaInfo,
+//     arr_ptr: *const libc::size_t,
+//     arr_len: libc::size_t,
+// ) -> Result<Vec<BTreeMap<SectorId, PublicReplicaInfo>>> {
+
+//     ensure!(!replicas_ptr.is_null(), "replicas_ptr must not be null");
+//     ensure!(!arr_ptr.is_null(), "arr_ptr must not be null");
+
+//     let mut public_replica_infos = Vec::new();
+
+//     let arr = std::slice::from_raw_parts(arr_ptr, arr_len);
+//     let replica_arr = std::slice::from_raw_parts(replicas_ptr, arr_len);
+
+//     for index, replicas_len in arr.iter().enumerate(){
+//         let mut replicas = Vec::new();
+
+//         for ffi_info in from_raw_parts(replica_arr[index], replicas_len) {
+//             replicas.push(PublicReplicaInfoTmp {
+//                 sector_id: ffi_info.sector_id,
+//                 registered_proof: ffi_info.registered_proof,
+//                 comm_r: ffi_info.comm_r,
+//             });
+//         }
+
+//         let map = replicas
+//             .into_par_iter()
+//             .map(|info| {
+//                 let PublicReplicaInfoTmp {
+//                     registered_proof,
+//                     comm_r,
+//                     sector_id,
+//                 } = info;
+
+//                 (
+//                     SectorId::from(sector_id),
+//                     PublicReplicaInfo::new(registered_proof.into(), comm_r),
+//                 )
+//             })
+//             .collect();
+//         public_replica_infos.push(map);
+//     }
+
+
+//     Ok(public_replica_infos)
+// }
 
 #[derive(Debug, Clone)]
 struct PrivateReplicaInfoTmp {
@@ -127,26 +221,6 @@ pub unsafe fn c_to_rust_post_proofs(
     let out = from_raw_parts(post_proofs_ptr, post_proofs_len)
         .iter()
         .map(|fpp| PoStProof {
-            registered_proof: fpp.registered_proof.into(),
-            proof: from_raw_parts(fpp.proof_ptr, fpp.proof_len).to_vec(),
-        })
-        .collect();
-
-    Ok(out)
-}
-
-pub unsafe fn c_to_rust_partition_proofs(
-    partition_proofs_ptr: *const fil_PartitionSnarkProof,
-    partition_proofs_len: libc::size_t,
-) -> Result<Vec<PartitionSnarkProof>> {
-    ensure!(
-        !partition_proofs_ptr.is_null(),
-        "partition_proofs_ptr must not be null"
-    );
-
-    let out = from_raw_parts(partition_proofs_ptr, partition_proofs_len)
-        .iter()
-        .map(|fpp| PartitionSnarkProof {
             registered_proof: fpp.registered_proof.into(),
             proof: from_raw_parts(fpp.proof_ptr, fpp.proof_len).to_vec(),
         })

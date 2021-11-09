@@ -55,11 +55,21 @@ impl std::io::Seek for FileDescriptorRef {
 pub enum fil_RegisteredSealProof {
     StackedDrg2KiBV1,
     StackedDrg8MiBV1,
+    StackedDrg16MiBV1,
+    StackedDrg32MiBV1,
+    StackedDrg64MiBV1,
+    StackedDrg128MiBV1,
+    StackedDrg256MiBV1,
     StackedDrg512MiBV1,
     StackedDrg32GiBV1,
     StackedDrg64GiBV1,
     StackedDrg2KiBV1_1,
     StackedDrg8MiBV1_1,
+    StackedDrg16MiBV1_1,
+    StackedDrg32MiBV1_1,
+    StackedDrg64MiBV1_1,
+    StackedDrg128MiBV1_1,
+    StackedDrg256MiBV1_1,
     StackedDrg512MiBV1_1,
     StackedDrg32GiBV1_1,
     StackedDrg64GiBV1_1,
@@ -70,12 +80,26 @@ impl From<RegisteredSealProof> for fil_RegisteredSealProof {
         match other {
             RegisteredSealProof::StackedDrg2KiBV1 => fil_RegisteredSealProof::StackedDrg2KiBV1,
             RegisteredSealProof::StackedDrg8MiBV1 => fil_RegisteredSealProof::StackedDrg8MiBV1,
+            RegisteredSealProof::StackedDrg16MiBV1 => fil_RegisteredSealProof::StackedDrg16MiBV1,
+            RegisteredSealProof::StackedDrg32MiBV1 => fil_RegisteredSealProof::StackedDrg32MiBV1,
+            RegisteredSealProof::StackedDrg64MiBV1 => fil_RegisteredSealProof::StackedDrg64MiBV1,
+            RegisteredSealProof::StackedDrg128MiBV1 => fil_RegisteredSealProof::StackedDrg128MiBV1,
+            RegisteredSealProof::StackedDrg256MiBV1 => fil_RegisteredSealProof::StackedDrg256MiBV1,
             RegisteredSealProof::StackedDrg512MiBV1 => fil_RegisteredSealProof::StackedDrg512MiBV1,
             RegisteredSealProof::StackedDrg32GiBV1 => fil_RegisteredSealProof::StackedDrg32GiBV1,
             RegisteredSealProof::StackedDrg64GiBV1 => fil_RegisteredSealProof::StackedDrg64GiBV1,
 
             RegisteredSealProof::StackedDrg2KiBV1_1 => fil_RegisteredSealProof::StackedDrg2KiBV1_1,
             RegisteredSealProof::StackedDrg8MiBV1_1 => fil_RegisteredSealProof::StackedDrg8MiBV1_1,
+            RegisteredSealProof::StackedDrg16MiBV1_1 => fil_RegisteredSealProof::StackedDrg16MiBV1_1,
+            RegisteredSealProof::StackedDrg32MiBV1_1 => fil_RegisteredSealProof::StackedDrg32MiBV1_1,
+            RegisteredSealProof::StackedDrg64MiBV1_1 => fil_RegisteredSealProof::StackedDrg64MiBV1_1,
+            RegisteredSealProof::StackedDrg128MiBV1_1 => {
+                fil_RegisteredSealProof::StackedDrg128MiBV1_1
+            }
+            RegisteredSealProof::StackedDrg256MiBV1_1 => {
+                fil_RegisteredSealProof::StackedDrg256MiBV1_1
+            }
             RegisteredSealProof::StackedDrg512MiBV1_1 => {
                 fil_RegisteredSealProof::StackedDrg512MiBV1_1
             }
@@ -94,12 +118,22 @@ impl From<fil_RegisteredSealProof> for RegisteredSealProof {
         match other {
             fil_RegisteredSealProof::StackedDrg2KiBV1 => RegisteredSealProof::StackedDrg2KiBV1,
             fil_RegisteredSealProof::StackedDrg8MiBV1 => RegisteredSealProof::StackedDrg8MiBV1,
+            fil_RegisteredSealProof::StackedDrg16MiBV1 => RegisteredSealProof::StackedDrg16MiBV1,
+            fil_RegisteredSealProof::StackedDrg32MiBV1 => RegisteredSealProof::StackedDrg32MiBV1,
+            fil_RegisteredSealProof::StackedDrg64MiBV1 => RegisteredSealProof::StackedDrg64MiBV1,
+            fil_RegisteredSealProof::StackedDrg128MiBV1 => RegisteredSealProof::StackedDrg128MiBV1,
+            fil_RegisteredSealProof::StackedDrg256MiBV1 => RegisteredSealProof::StackedDrg256MiBV1,
             fil_RegisteredSealProof::StackedDrg512MiBV1 => RegisteredSealProof::StackedDrg512MiBV1,
             fil_RegisteredSealProof::StackedDrg32GiBV1 => RegisteredSealProof::StackedDrg32GiBV1,
             fil_RegisteredSealProof::StackedDrg64GiBV1 => RegisteredSealProof::StackedDrg64GiBV1,
 
             fil_RegisteredSealProof::StackedDrg2KiBV1_1 => RegisteredSealProof::StackedDrg2KiBV1_1,
             fil_RegisteredSealProof::StackedDrg8MiBV1_1 => RegisteredSealProof::StackedDrg8MiBV1_1,
+            fil_RegisteredSealProof::StackedDrg16MiBV1_1 => RegisteredSealProof::StackedDrg16MiBV1_1,
+            fil_RegisteredSealProof::StackedDrg32MiBV1_1 => RegisteredSealProof::StackedDrg32MiBV1_1,
+            fil_RegisteredSealProof::StackedDrg64MiBV1_1 => RegisteredSealProof::StackedDrg64MiBV1_1,
+            fil_RegisteredSealProof::StackedDrg128MiBV1_1 => RegisteredSealProof::StackedDrg128MiBV1_1,
+            fil_RegisteredSealProof::StackedDrg256MiBV1_1 => RegisteredSealProof::StackedDrg256MiBV1_1,
             fil_RegisteredSealProof::StackedDrg512MiBV1_1 => {
                 RegisteredSealProof::StackedDrg512MiBV1_1
             }
@@ -118,11 +152,21 @@ impl From<fil_RegisteredSealProof> for RegisteredSealProof {
 pub enum fil_RegisteredPoStProof {
     StackedDrgWinning2KiBV1,
     StackedDrgWinning8MiBV1,
+    StackedDrgWinning16MiBV1,
+    StackedDrgWinning32MiBV1,
+    StackedDrgWinning64MiBV1,
+    StackedDrgWinning128MiBV1,
+    StackedDrgWinning256MiBV1,
     StackedDrgWinning512MiBV1,
     StackedDrgWinning32GiBV1,
     StackedDrgWinning64GiBV1,
     StackedDrgWindow2KiBV1,
     StackedDrgWindow8MiBV1,
+    StackedDrgWindow16MiBV1,
+    StackedDrgWindow32MiBV1,
+    StackedDrgWindow64MiBV1,
+    StackedDrgWindow128MiBV1,
+    StackedDrgWindow256MiBV1,
     StackedDrgWindow512MiBV1,
     StackedDrgWindow32GiBV1,
     StackedDrgWindow64GiBV1,
@@ -135,11 +179,21 @@ impl From<RegisteredPoStProof> for fil_RegisteredPoStProof {
         match other {
             StackedDrgWinning2KiBV1 => fil_RegisteredPoStProof::StackedDrgWinning2KiBV1,
             StackedDrgWinning8MiBV1 => fil_RegisteredPoStProof::StackedDrgWinning8MiBV1,
+            StackedDrgWinning16MiBV1 => fil_RegisteredPoStProof::StackedDrgWinning16MiBV1,
+            StackedDrgWinning32MiBV1 => fil_RegisteredPoStProof::StackedDrgWinning32MiBV1,
+            StackedDrgWinning64MiBV1 => fil_RegisteredPoStProof::StackedDrgWinning64MiBV1,
+            StackedDrgWinning128MiBV1 => fil_RegisteredPoStProof::StackedDrgWinning128MiBV1,
+            StackedDrgWinning256MiBV1 => fil_RegisteredPoStProof::StackedDrgWinning256MiBV1,
             StackedDrgWinning512MiBV1 => fil_RegisteredPoStProof::StackedDrgWinning512MiBV1,
             StackedDrgWinning32GiBV1 => fil_RegisteredPoStProof::StackedDrgWinning32GiBV1,
             StackedDrgWinning64GiBV1 => fil_RegisteredPoStProof::StackedDrgWinning64GiBV1,
             StackedDrgWindow2KiBV1 => fil_RegisteredPoStProof::StackedDrgWindow2KiBV1,
             StackedDrgWindow8MiBV1 => fil_RegisteredPoStProof::StackedDrgWindow8MiBV1,
+            StackedDrgWindow16MiBV1 => fil_RegisteredPoStProof::StackedDrgWindow16MiBV1,
+            StackedDrgWindow32MiBV1 => fil_RegisteredPoStProof::StackedDrgWindow32MiBV1,
+            StackedDrgWindow64MiBV1 => fil_RegisteredPoStProof::StackedDrgWindow64MiBV1,
+            StackedDrgWindow128MiBV1 => fil_RegisteredPoStProof::StackedDrgWindow128MiBV1,
+            StackedDrgWindow256MiBV1 => fil_RegisteredPoStProof::StackedDrgWindow256MiBV1,
             StackedDrgWindow512MiBV1 => fil_RegisteredPoStProof::StackedDrgWindow512MiBV1,
             StackedDrgWindow32GiBV1 => fil_RegisteredPoStProof::StackedDrgWindow32GiBV1,
             StackedDrgWindow64GiBV1 => fil_RegisteredPoStProof::StackedDrgWindow64GiBV1,
@@ -154,11 +208,21 @@ impl From<fil_RegisteredPoStProof> for RegisteredPoStProof {
         match other {
             fil_RegisteredPoStProof::StackedDrgWinning2KiBV1 => StackedDrgWinning2KiBV1,
             fil_RegisteredPoStProof::StackedDrgWinning8MiBV1 => StackedDrgWinning8MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWinning16MiBV1 => StackedDrgWinning16MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWinning32MiBV1 => StackedDrgWinning32MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWinning64MiBV1 => StackedDrgWinning64MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWinning128MiBV1 => StackedDrgWinning128MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWinning256MiBV1 => StackedDrgWinning256MiBV1,
             fil_RegisteredPoStProof::StackedDrgWinning512MiBV1 => StackedDrgWinning512MiBV1,
             fil_RegisteredPoStProof::StackedDrgWinning32GiBV1 => StackedDrgWinning32GiBV1,
             fil_RegisteredPoStProof::StackedDrgWinning64GiBV1 => StackedDrgWinning64GiBV1,
             fil_RegisteredPoStProof::StackedDrgWindow2KiBV1 => StackedDrgWindow2KiBV1,
             fil_RegisteredPoStProof::StackedDrgWindow8MiBV1 => StackedDrgWindow8MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWindow16MiBV1 => StackedDrgWindow16MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWindow32MiBV1 => StackedDrgWindow32MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWindow64MiBV1 => StackedDrgWindow64MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWindow128MiBV1 => StackedDrgWindow128MiBV1,
+            fil_RegisteredPoStProof::StackedDrgWindow256MiBV1 => StackedDrgWindow256MiBV1,
             fil_RegisteredPoStProof::StackedDrgWindow512MiBV1 => StackedDrgWindow512MiBV1,
             fil_RegisteredPoStProof::StackedDrgWindow32GiBV1 => StackedDrgWindow32GiBV1,
             fil_RegisteredPoStProof::StackedDrgWindow64GiBV1 => StackedDrgWindow64GiBV1,
@@ -202,6 +266,32 @@ impl From<fil_PublicPieceInfo> for PieceInfo {
             commitment: comm_p,
             size: UnpaddedBytesAmount(num_bytes),
         }
+    }
+}
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct fil_PoStProof {
+    pub registered_proof: fil_RegisteredPoStProof,
+    pub proof_len: libc::size_t,
+    pub proof_ptr: *const u8,
+}
+
+impl Default for fil_PoStProof {
+    fn default() -> fil_PoStProof {
+        fil_PoStProof {
+            registered_proof: fil_RegisteredPoStProof::StackedDrgWindow2KiBV1,
+            proof_len: 0,
+            proof_ptr: ptr::null(),
+        }
+    }
+}
+
+impl Drop for fil_PoStProof {
+    fn drop(&mut self) {
+        let _ = unsafe {
+            Vec::from_raw_parts(self.proof_ptr as *mut u8, self.proof_len, self.proof_len)
+        };
     }
 }
 
@@ -279,77 +369,11 @@ pub struct PoStProof {
     pub proof: Vec<u8>,
 }
 
-#[repr(C)]
-#[derive(Clone)]
-pub struct fil_PoStProof {
-    pub registered_proof: fil_RegisteredPoStProof,
-    pub proof_len: libc::size_t,
-    pub proof_ptr: *const u8,
-}
-
-impl Drop for fil_PoStProof {
-    fn drop(&mut self) {
-        let _ = unsafe {
-            Vec::from_raw_parts(self.proof_ptr as *mut u8, self.proof_len, self.proof_len)
-        };
-    }
-}
-
 impl From<fil_PoStProof> for PoStProof {
     fn from(other: fil_PoStProof) -> Self {
         let proof = unsafe { from_raw_parts(other.proof_ptr, other.proof_len).to_vec() };
 
         PoStProof {
-            registered_proof: other.registered_proof.into(),
-            proof,
-        }
-    }
-}
-
-#[repr(C)]
-#[derive(Clone)]
-pub struct PartitionSnarkProof {
-    pub registered_proof: RegisteredPoStProof,
-    pub proof: Vec<u8>,
-}
-
-#[repr(C)]
-pub struct fil_PartitionSnarkProof {
-    pub registered_proof: fil_RegisteredPoStProof,
-    pub proof_len: libc::size_t,
-    pub proof_ptr: *const u8,
-}
-
-impl Clone for fil_PartitionSnarkProof {
-    fn clone(&self) -> Self {
-        let slice: &[u8] = unsafe { std::slice::from_raw_parts(self.proof_ptr, self.proof_len) };
-        let cloned: Vec<u8> = slice.to_vec();
-        debug_assert_eq!(self.proof_len, cloned.len());
-
-        let proof_ptr = cloned.as_ptr();
-        std::mem::forget(cloned);
-
-        fil_PartitionSnarkProof {
-            registered_proof: self.registered_proof,
-            proof_len: self.proof_len,
-            proof_ptr,
-        }
-    }
-}
-
-impl Drop for fil_PartitionSnarkProof {
-    fn drop(&mut self) {
-        let _ = unsafe {
-            Vec::from_raw_parts(self.proof_ptr as *mut u8, self.proof_len, self.proof_len)
-        };
-    }
-}
-
-impl From<fil_PartitionSnarkProof> for PartitionSnarkProof {
-    fn from(other: fil_PartitionSnarkProof) -> Self {
-        let proof = unsafe { from_raw_parts(other.proof_ptr, other.proof_len).to_vec() };
-
-        PartitionSnarkProof {
             registered_proof: other.registered_proof.into(),
             proof,
         }
@@ -473,8 +497,7 @@ code_and_message_impl!(fil_GenerateWinningPoStResponse);
 #[derive(DropStructMacro)]
 pub struct fil_GenerateWindowPoStResponse {
     pub error_msg: *const libc::c_char,
-    pub proofs_len: libc::size_t,
-    pub proofs_ptr: *const fil_PoStProof,
+    pub proof: fil_PoStProof,
     pub faulty_sectors_len: libc::size_t,
     pub faulty_sectors_ptr: *const u64,
     pub status_code: FCPResponseStatus,
@@ -484,8 +507,7 @@ impl Default for fil_GenerateWindowPoStResponse {
     fn default() -> fil_GenerateWindowPoStResponse {
         fil_GenerateWindowPoStResponse {
             error_msg: ptr::null(),
-            proofs_len: 0,
-            proofs_ptr: ptr::null(),
+            proof: fil_PoStProof::default(),
             faulty_sectors_len: 0,
             faulty_sectors_ptr: ptr::null(),
             status_code: FCPResponseStatus::FCPNoError,
@@ -494,78 +516,6 @@ impl Default for fil_GenerateWindowPoStResponse {
 }
 
 code_and_message_impl!(fil_GenerateWindowPoStResponse);
-
-#[repr(C)]
-#[derive(DropStructMacro)]
-pub struct fil_GenerateSingleWindowPoStWithVanillaResponse {
-    pub error_msg: *const libc::c_char,
-    pub partition_proof: fil_PartitionSnarkProof,
-    pub faulty_sectors_len: libc::size_t,
-    pub faulty_sectors_ptr: *const u64,
-    pub status_code: FCPResponseStatus,
-}
-
-impl Default for fil_GenerateSingleWindowPoStWithVanillaResponse {
-    fn default() -> fil_GenerateSingleWindowPoStWithVanillaResponse {
-        fil_GenerateSingleWindowPoStWithVanillaResponse {
-            error_msg: ptr::null(),
-            partition_proof: fil_PartitionSnarkProof {
-                registered_proof: fil_RegisteredPoStProof::StackedDrgWinning2KiBV1,
-                proof_len: 0,
-                proof_ptr: ptr::null(),
-            },
-            faulty_sectors_len: 0,
-            faulty_sectors_ptr: ptr::null(),
-            status_code: FCPResponseStatus::FCPNoError,
-        }
-    }
-}
-
-code_and_message_impl!(fil_GenerateSingleWindowPoStWithVanillaResponse);
-
-#[repr(C)]
-#[derive(DropStructMacro)]
-pub struct fil_GetNumPartitionForFallbackPoStResponse {
-    pub error_msg: *const libc::c_char,
-    pub status_code: FCPResponseStatus,
-    pub num_partition: libc::size_t,
-}
-
-impl Default for fil_GetNumPartitionForFallbackPoStResponse {
-    fn default() -> fil_GetNumPartitionForFallbackPoStResponse {
-        fil_GetNumPartitionForFallbackPoStResponse {
-            error_msg: ptr::null(),
-            num_partition: 0,
-            status_code: FCPResponseStatus::FCPNoError,
-        }
-    }
-}
-
-code_and_message_impl!(fil_GetNumPartitionForFallbackPoStResponse);
-
-#[repr(C)]
-#[derive(DropStructMacro)]
-pub struct fil_MergeWindowPoStPartitionProofsResponse {
-    pub error_msg: *const libc::c_char,
-    pub proof: fil_PoStProof,
-    pub status_code: FCPResponseStatus,
-}
-
-impl Default for fil_MergeWindowPoStPartitionProofsResponse {
-    fn default() -> fil_MergeWindowPoStPartitionProofsResponse {
-        fil_MergeWindowPoStPartitionProofsResponse {
-            error_msg: ptr::null(),
-            proof: fil_PoStProof {
-                registered_proof: fil_RegisteredPoStProof::StackedDrgWinning2KiBV1,
-                proof_len: 0,
-                proof_ptr: ptr::null(),
-            },
-            status_code: FCPResponseStatus::FCPNoError,
-        }
-    }
-}
-
-code_and_message_impl!(fil_MergeWindowPoStPartitionProofsResponse);
 
 #[repr(C)]
 #[derive(DropStructMacro)]
