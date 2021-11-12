@@ -3,10 +3,11 @@
 package ffi
 
 import (
-	"github.com/filecoin-project/filecoin-ffi/generated"
-	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/specs-actors/v5/actors/runtime/proof"
+	"github.com/a263200357/filecoin-ffi/generated"
 	"github.com/pkg/errors"
+
+	spproof "fil_integrate/build/proof"
+	"fil_integrate/build/state-types/abi"
 )
 
 type FallbackChallenges struct {
@@ -96,7 +97,7 @@ func GenerateWinningPoStWithVanilla(
 	minerID abi.ActorID,
 	randomness abi.PoStRandomness,
 	proofs [][]byte,
-) ([]proof.PoStProof, error) {
+) ([]spproof.PoStProof, error) {
 	pp, err := toFilRegisteredPoStProof(proofType)
 	if err != nil {
 		return nil, err
@@ -138,15 +139,15 @@ func GenerateWindowPoStWithVanilla(
 	minerID abi.ActorID,
 	randomness abi.PoStRandomness,
 	proofs [][]byte,
-) ([]proof.PoStProof, error) {
+) (spproof.PoStProof, error) {
 	pp, err := toFilRegisteredPoStProof(proofType)
 	if err != nil {
-		return nil, err
+		return spproof.PoStProof{}, err
 	}
 
 	proverID, err := toProverID(minerID)
 	if err != nil {
-		return nil, err
+		return spproof.PoStProof{}, err
 	}
 	fproofs, discard := toVanillaProofs(proofs)
 	defer discard()
@@ -158,24 +159,22 @@ func GenerateWindowPoStWithVanilla(
 		fproofs, uint(len(proofs)),
 	)
 	resp.Deref()
-	resp.ProofsPtr = make([]generated.FilPoStProof, resp.ProofsLen)
-	resp.Deref()
 
 	defer generated.FilDestroyGenerateWindowPostResponse(resp)
 
 	if resp.StatusCode != generated.FCPResponseStatusFCPNoError {
-		return nil, errors.New(generated.RawString(resp.ErrorMsg).Copy())
+		return spproof.PoStProof{}, errors.New(generated.RawString(resp.ErrorMsg).Copy())
 	}
 
-	out, err := fromFilPoStProofs(resp.ProofsPtr)
+	out, err := fromFilPoStProof(resp.Proof)
 	if err != nil {
-		return nil, err
+		return spproof.PoStProof{}, err
 	}
 
 	return out, nil
 }
 
-type PartitionProof proof.PoStProof
+type PartitionProof spproof.PoStProof
 
 func GenerateSinglePartitionWindowPoStWithVanilla(
 	proofType abi.RegisteredPoStProof,
@@ -227,7 +226,7 @@ func GenerateSinglePartitionWindowPoStWithVanilla(
 func MergeWindowPoStPartitionProofs(
 	proofType abi.RegisteredPoStProof,
 	partitionProofs []PartitionProof,
-) (*proof.PoStProof, error) {
+) (*spproof.PoStProof, error) {
 	pp, err := toFilRegisteredPoStProof(proofType)
 	if err != nil {
 		return nil, err
@@ -256,7 +255,7 @@ func MergeWindowPoStPartitionProofs(
 		return nil, err
 	}
 
-	out := proof.PoStProof{
+	out := spproof.PoStProof{
 		PoStProof:  dpp,
 		ProofBytes: copyBytes(resp.Proof.ProofPtr, resp.Proof.ProofLen),
 	}

@@ -8,7 +8,7 @@ authors = [
   "laser <l@s3r.com>"
 ]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/filecoin-project/filecoin-ffi"
+repository = "https://github.com/a263200357/filecoin-ffi"
 readme = "README.md"
 edition = "2018"
 publish = false
@@ -32,14 +32,15 @@ rand = "0.8"
 rand_chacha = "0.3.1"
 rayon = "1.2.1"
 anyhow = "1.0.23"
-bellperson = { version = "0.18", default-features = false }
+bellperson = { git = "https://github.com/a263200357/bellperson", version = "0.18", default-features = false }
 serde_json = "1.0.46"
 rust-gpu-tools = { version = "0.5", default-features = false }
-storage-proofs-porep = { version = "~10.1.0", default-features = false }
+storage-proofs-porep = { git = "https://github.com/a263200357/rust-fil-proofs", version = "~10.1.0", default-features = false }
 
 [dependencies.filecoin-proofs-api]
 package = "filecoin-proofs-api"
 version = "10.1"
+git = "https://github.com/a263200357/rust-filecoin-proofs-api"
 default-features = false
 
 [build-dependencies]

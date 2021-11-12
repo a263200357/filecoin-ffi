@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"sort"
 
-	"github.com/filecoin-project/go-state-types/abi"
-	"github.com/filecoin-project/specs-actors/actors/runtime/proof"
-	"github.com/ipfs/go-cid"
+	"fil_integrate/build/cid"
+	spproof "fil_integrate/build/proof"
+	"fil_integrate/build/state-types/abi"
 )
 
 // BLS
@@ -116,12 +116,12 @@ func (s *SortedPrivateSectorInfo) UnmarshalJSON(b []byte) error {
 
 type publicSectorInfo struct {
 	PoStProofType abi.RegisteredPoStProof
-	SealedCID     cid.Cid
+	SealedCID     cid.Commit
 	SectorNum     abi.SectorNumber
 }
 
 type PrivateSectorInfo struct {
-	proof.SectorInfo
+	spproof.SectorInfo
 	CacheDirPath     string
 	PoStProofType    abi.RegisteredPoStProof
 	SealedSectorPath string

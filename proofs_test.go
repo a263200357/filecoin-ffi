@@ -8,13 +8,11 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/filecoin-project/filecoin-ffi/generated"
+	"github.com/a263200357/filecoin-ffi/generated"
 
 	"github.com/stretchr/testify/assert"
 
-	commcid "github.com/filecoin-project/go-fil-commcid"
-
-	"github.com/filecoin-project/go-state-types/abi"
+	"fil_integrate/build/state-types/abi"
 
 	"github.com/stretchr/testify/require"
 )

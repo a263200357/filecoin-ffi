@@ -445,6 +445,27 @@ func FilGenerateWindowPost(randomness Fil32ByteArray, replicasPtr []FilPrivateRe
 	return __v
 }
 
+// FilGenerateWindowPost function as declared in filecoin-ffi/filcrypto.h:498
+func FilAggregateWindowPostProofs(registeredAggregation FilRegisteredAggregationProof, randomnessesPtr []Fil32ByteArray, randomnessesLen uint, proofsPtr []FilPoStProof, proofsLen uint, sectorCount uint) *FilAggregateProof {
+	cregisteredAggregation, cregisteredAggregationAllocMap := (C.fil_RegisteredAggregationProof)(registeredAggregation), cgoAllocsUnknown
+	crandomnessesPtr, crandomnessesPtrAllocMap := unpackArgSFil32ByteArray(randomnessesPtr)
+	crandomnessesLen, crandomnessesLenAllocMap := (C.size_t)(randomnessesLen), cgoAllocsUnknown
+	cproofsPtr, cproofsPtrAllocMap := unpackArgSFilPoStProof(proofsPtr)
+	cproofsLen, cproofsLenAllocMap := (C.size_t)(proofsLen), cgoAllocsUnknown
+	csectorCount, csectorcountAllocMap := (C.size_t)(sectorCount), cgoAllocsUnknown
+	__ret := C.fil_aggregate_window_post_proofs(cregisteredAggregation, crandomnessesPtr, crandomnessesLen, cproofsPtr, cproofsLen, csectorCount)
+	runtime.KeepAlive(csectorcountAllocMap)
+	runtime.KeepAlive(cproofsLenAllocMap)
+	packSFilPoStProof(proofsPtr, cproofsPtr)
+	runtime.KeepAlive(cproofsPtrAllocMap)
+	runtime.KeepAlive(crandomnessesLenAllocMap)
+	packSFil32ByteArray(randomnessesPtr, crandomnessesPtr)
+	runtime.KeepAlive(crandomnessesPtrAllocMap)
+	runtime.KeepAlive(cregisteredAggregationAllocMap)
+	__v := NewFilAggregateProofRef(unsafe.Pointer(__ret))
+	return __v
+}
+
 // FilGenerateWindowPostWithVanilla function as declared in filecoin-ffi/filcrypto.h:550
 func FilGenerateWindowPostWithVanilla(registeredProof FilRegisteredPoStProof, randomness Fil32ByteArray, proverId Fil32ByteArray, vanillaProofsPtr []FilVanillaProof, vanillaProofsLen uint) *FilGenerateWindowPoStResponse {
 	cregisteredProof, cregisteredProofAllocMap := (C.fil_RegisteredPoStProof)(registeredProof), cgoAllocsUnknown
@@ -934,23 +955,48 @@ func FilVerifySeal(registeredProof FilRegisteredSealProof, commR Fil32ByteArray,
 }
 
 // FilVerifyWindowPost function as declared in filecoin-ffi/filcrypto.h:875
-func FilVerifyWindowPost(randomness Fil32ByteArray, replicasPtr []FilPublicReplicaInfo, replicasLen uint, proofsPtr []FilPoStProof, proofsLen uint, proverId Fil32ByteArray) *FilVerifyWindowPoStResponse {
+func FilVerifyWindowPost(randomness Fil32ByteArray, replicasPtr []FilPublicReplicaInfo, replicasLen uint, proof FilPoStProof, proverId Fil32ByteArray) *FilVerifyWindowPoStResponse {
 	crandomness, crandomnessAllocMap := randomness.PassValue()
 	creplicasPtr, creplicasPtrAllocMap := unpackArgSFilPublicReplicaInfo(replicasPtr)
 	creplicasLen, creplicasLenAllocMap := (C.size_t)(replicasLen), cgoAllocsUnknown
-	cproofsPtr, cproofsPtrAllocMap := unpackArgSFilPoStProof(proofsPtr)
-	cproofsLen, cproofsLenAllocMap := (C.size_t)(proofsLen), cgoAllocsUnknown
+	cproof, cproofAllocMap := proof.PassValue()
 	cproverId, cproverIdAllocMap := proverId.PassValue()
-	__ret := C.fil_verify_window_post(crandomness, creplicasPtr, creplicasLen, cproofsPtr, cproofsLen, cproverId)
+	__ret := C.fil_verify_window_post(crandomness, creplicasPtr, creplicasLen, cproof, cproverId)
 	runtime.KeepAlive(cproverIdAllocMap)
-	runtime.KeepAlive(cproofsLenAllocMap)
-	packSFilPoStProof(proofsPtr, cproofsPtr)
-	runtime.KeepAlive(cproofsPtrAllocMap)
+	runtime.KeepAlive(cproofAllocMap)
 	runtime.KeepAlive(creplicasLenAllocMap)
 	packSFilPublicReplicaInfo(replicasPtr, creplicasPtr)
 	runtime.KeepAlive(creplicasPtrAllocMap)
 	runtime.KeepAlive(crandomnessAllocMap)
 	__v := NewFilVerifyWindowPoStResponseRef(unsafe.Pointer(__ret))
+	return __v
+}
+
+func FilVerifyAggregateWindowPostProofs(registeredProof FilRegisteredPoStProof, registeredAggregation FilRegisteredAggregationProof, proverId Fil32ByteArray, proofPtr []byte, proofLen uint, randomnessesPtr []Fil32ByteArray, randomnessesLen uint, replicasPtr []FilPublicReplicaInfo, arrPtr []uint, arrLen uint) *FilVerifyAggregateSealProofResponse {
+	cregisteredProof, cregisteredProofAllocMap := (C.fil_RegisteredPoStProof)(registeredProof), cgoAllocsUnknown
+	cregisteredAggregation, cregisteredAggregationAllocMap := (C.fil_RegisteredAggregationProof)(registeredAggregation), cgoAllocsUnknown
+	cproverId, cproverIdAllocMap := proverId.PassValue()
+	cproofPtr, cproofPtrAllocMap := copyPUint8TBytes((*sliceHeader)(unsafe.Pointer(&proofPtr)))
+	cproofLen, cproofLenAllocMap := (C.size_t)(proofLen), cgoAllocsUnknown
+	crandomnessesPtr, crandomnessesPtrAllocMap := unpackArgSFil32ByteArray(randomnessesPtr)
+	crandomnessesLen, crandomnessesLenAllocMap := (C.size_t)(randomnessesLen), cgoAllocsUnknown
+	creplicasPtr, creplicasPtrAllocMap := unpackArgSFilPublicReplicaInfo(replicasPtr)
+	carrPtr, carrPtrAlocMap := copyPUint64TBytes((*sliceHeader)(unsafe.Pointer(&arrPtr)))
+	carrLen, carrLenAlocMap := (C.size_t)(arrLen), cgoAllocsUnknown
+	__ret := C.fil_verify_aggregate_window_post_proofs(cregisteredProof, cregisteredAggregation, cproverId, cproofPtr, cproofLen, crandomnessesPtr, crandomnessesLen, creplicasPtr, carrPtr, carrLen)
+	runtime.KeepAlive(carrLenAlocMap)
+	runtime.KeepAlive(carrPtrAlocMap)
+	packSFilPublicReplicaInfo(replicasPtr, creplicasPtr)
+	runtime.KeepAlive(creplicasPtrAllocMap)
+	runtime.KeepAlive(crandomnessesLenAllocMap)
+	packSFil32ByteArray(randomnessesPtr, crandomnessesPtr)
+	runtime.KeepAlive(crandomnessesPtrAllocMap)
+	runtime.KeepAlive(cproofLenAllocMap)
+	runtime.KeepAlive(cproofPtrAllocMap)
+	runtime.KeepAlive(cproverIdAllocMap)
+	runtime.KeepAlive(cregisteredAggregationAllocMap)
+	runtime.KeepAlive(cregisteredProofAllocMap)
+	__v := NewFilVerifyAggregateSealProofResponseRef(unsafe.Pointer(__ret))
 	return __v
 }
 

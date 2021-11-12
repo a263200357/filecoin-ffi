@@ -180,8 +180,7 @@ type FilPoStProof struct {
 // FilGenerateWindowPoStResponse as declared in filecoin-ffi/filcrypto.h:191
 type FilGenerateWindowPoStResponse struct {
 	ErrorMsg         string
-	ProofsLen        uint
-	ProofsPtr        []FilPoStProof
+	Proof            FilPoStProof
 	FaultySectorsLen uint
 	FaultySectorsPtr []uint64
 	StatusCode       FCPResponseStatus

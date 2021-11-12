@@ -1075,26 +1075,16 @@ pub unsafe extern "C" fn fil_generate_window_post_with_vanilla(
 
         match result {
             Ok(output) => {
-                let mapped: Vec<fil_PoStProof> = output
-                    .iter()
-                    .cloned()
-                    .map(|(t, proof)| {
-                        let out = fil_PoStProof {
-                            registered_proof: (t).into(),
-                            proof_len: proof.len(),
-                            proof_ptr: proof.as_ptr(),
-                        };
-
-                        mem::forget(proof);
-
-                        out
-                    })
-                    .collect();
+                let (t, proof) = output;
+                let post_proof = fil_PoStProof{
+                    registered_proof: (t).into(),
+                    proof_len: proof.len(),
+                    proof_ptr: proof.as_ptr(),
+                };
+                mem::forget(proof);
 
                 response.status_code = FCPResponseStatus::FCPNoError;
-                response.proofs_ptr = mapped.as_ptr();
-                response.proofs_len = mapped.len();
-                mem::forget(mapped);
+                response.proof = post_proof;
             }
             Err(err) => {
                 // If there were faulty sectors, add them to the response
@@ -1143,26 +1133,16 @@ pub unsafe extern "C" fn fil_generate_window_post(
 
         match result {
             Ok(output) => {
-                let mapped: Vec<fil_PoStProof> = output
-                    .iter()
-                    .cloned()
-                    .map(|(t, proof)| {
-                        let out = fil_PoStProof {
-                            registered_proof: (t).into(),
-                            proof_len: proof.len(),
-                            proof_ptr: proof.as_ptr(),
-                        };
-
-                        mem::forget(proof);
-
-                        out
-                    })
-                    .collect();
+                let (t, proof) = output;
+                let post_proof = fil_PoStProof{
+                    registered_proof: (t).into(),
+                    proof_len: proof.len(),
+                    proof_ptr: proof.as_ptr(),
+                };
+                mem::forget(proof);
 
                 response.status_code = FCPResponseStatus::FCPNoError;
-                response.proofs_ptr = mapped.as_ptr();
-                response.proofs_len = mapped.len();
-                mem::forget(mapped);
+                response.proof = post_proof;
             }
             Err(err) => {
                 // If there were faulty sectors, add them to the response
@@ -1195,8 +1175,7 @@ pub unsafe extern "C" fn fil_verify_window_post(
     randomness: fil_32ByteArray,
     replicas_ptr: *const fil_PublicReplicaInfo,
     replicas_len: libc::size_t,
-    proofs_ptr: *const fil_PoStProof,
-    proofs_len: libc::size_t,
+    post_proof: fil_PoStProof,
     prover_id: fil_32ByteArray,
 ) -> *mut fil_VerifyWindowPoStResponse {
     catch_panic_response(|| {
@@ -1209,16 +1188,11 @@ pub unsafe extern "C" fn fil_verify_window_post(
         let convert = super::helpers::to_public_replica_info_map(replicas_ptr, replicas_len);
 
         let result = convert.and_then(|replicas| {
-            let post_proofs = c_to_rust_post_proofs(proofs_ptr, proofs_len)?;
-
-            let proofs: Vec<(RegisteredPoStProof, &[u8])> = post_proofs
-                .iter()
-                .map(|x| (x.registered_proof, x.proof.as_ref()))
-                .collect();
+            let proof: (RegisteredPoStProof, &[u8]) = (post_proof.registered_proof.into(), from_raw_parts(post_proof.proof_ptr, post_proof.proof_len));
 
             filecoin_proofs_api::post::verify_window_post(
                 &randomness.inner,
-                &proofs,
+                &proof,
                 &replicas,
                 prover_id.inner,
             )
@@ -1236,6 +1210,123 @@ pub unsafe extern "C" fn fil_verify_window_post(
         };
 
         info!("verify_window_post: {}", "finish");
+        raw_ptr(response)
+    })
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn fil_aggregate_window_post_proofs(
+    registered_aggregation: fil_RegisteredAggregationProof,
+    randomnesses_ptr: *const fil_32ByteArray,
+    randomnesses_len: libc::size_t,
+    proofs_ptr: *const fil_PoStProof,
+    proofs_len: libc::size_t,
+    total_sector_count: libc::size_t,
+) -> *mut fil_AggregateProof {
+    catch_panic_response(|| {
+        init_log();
+        info!("aggregate_window_post_proofs: start");
+
+        // let responses: &[fil_SealCommitPhase2Response] =
+        //     std::slice::from_raw_parts(seal_commit_responses_ptr, seal_commit_responses_len);
+        // let outputs: Vec<SealCommitPhase2Output> = responses.iter().map(|x| x.into()).collect();
+
+        let raw_randomnesses: &[fil_32ByteArray] = std::slice::from_raw_parts(randomnesses_ptr, randomnesses_len);
+        let randomnesses: Vec<[u8; 32]> = raw_randomnesses.iter().map(|x| x.inner).collect();
+
+        let proofs: Vec<(RegisteredPoStProof, &[u8])> = from_raw_parts(proofs_ptr, proofs_len)
+            .iter()
+            .map(|x| (x.registered_proof.into(), from_raw_parts(x.proof_ptr, x.proof_len)))
+            .collect();
+
+        let mut response = fil_AggregateProof::default();
+
+        let result = filecoin_proofs_api::post::aggregate_window_post_proofs(
+            registered_aggregation.into(),
+            &randomnesses,
+            &proofs,
+            total_sector_count,
+        );
+
+        match result {
+            Ok(output) => {
+                response.status_code = FCPResponseStatus::FCPNoError;
+                response.proof_ptr = output.as_ptr();
+                response.proof_len = output.len();
+
+                mem::forget(output);
+            }
+            Err(err) => {
+                response.status_code = FCPResponseStatus::FCPUnclassifiedError;
+                response.error_msg = rust_str_to_c_str(format!("{:?}", err));
+            }
+        }
+
+        info!("aggregate_window_post_proofs: finish");
+
+        raw_ptr(response)
+    })
+}
+
+/// Verifies the output of an aggregated window post.
+///
+#[no_mangle]
+pub unsafe extern "C" fn fil_verify_aggregate_window_post_proofs(
+    registered_proof: fil_RegisteredPoStProof,
+    registered_aggregation: fil_RegisteredAggregationProof,
+    prover_id: fil_32ByteArray,
+    proof_ptr: *const u8,
+    proof_len: libc::size_t,
+    randomnesses_ptr: *mut fil_32ByteArray,
+    randomnesses_len: libc::size_t,
+    replicas_ptr: *const fil_PublicReplicaInfo,
+    arr_ptr: *const libc::size_t,
+    arr_len: libc::size_t,
+) -> *mut fil_VerifyAggregateSealProofResponse {
+    catch_panic_response(|| {
+        init_log();
+
+        info!("verify_aggregate_seal_proof: start");
+
+        let mut response = fil_VerifyAggregateSealProofResponse::default();
+
+        let convert = super::helpers::to_public_replica_infos_map(replicas_ptr, arr_ptr, arr_len);
+
+        let result = convert.and_then(|replicas| {
+            let raw_randomnesses: &[fil_32ByteArray] = std::slice::from_raw_parts(randomnesses_ptr, randomnesses_len);
+            let randomnesses: Vec<[u8; 32]> = raw_randomnesses.iter().map(|x| x.inner).collect();
+
+            let proof_bytes: Vec<u8> =
+                std::slice::from_raw_parts(proof_ptr, proof_len).to_vec();
+
+            filecoin_proofs_api::post::verify_aggregate_window_post_proofs(
+                registered_proof.into(),
+                registered_aggregation.into(),
+                prover_id.inner,
+                proof_bytes,
+                &randomnesses,
+                replicas.as_ref(),
+            )
+        });
+
+        match result {
+            Ok(true) => {
+                response.status_code = FCPResponseStatus::FCPNoError;
+                response.is_valid = true;
+            }
+            Ok(false) => {
+                response.status_code = FCPResponseStatus::FCPNoError;
+                response.is_valid = false;
+            }
+            Err(err) => {
+                response.status_code = FCPResponseStatus::FCPUnclassifiedError;
+                response.error_msg = rust_str_to_c_str(format!("{:?}", err));
+                response.is_valid = false;
+            }
+        }
+
+        info!("verify_aggregate_window_post_proof: finish");
+
         raw_ptr(response)
     })
 }

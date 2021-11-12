@@ -2005,13 +2005,9 @@ func (x *FilGenerateWindowPoStResponse) PassRef() (*C.fil_GenerateWindowPoStResp
 	ref2a5f3ba8.error_msg, cerror_msg_allocs = unpackPCharString(x.ErrorMsg)
 	allocs2a5f3ba8.Borrow(cerror_msg_allocs)
 
-	var cproofs_len_allocs *cgoAllocMap
-	ref2a5f3ba8.proofs_len, cproofs_len_allocs = (C.size_t)(x.ProofsLen), cgoAllocsUnknown
-	allocs2a5f3ba8.Borrow(cproofs_len_allocs)
-
-	var cproofs_ptr_allocs *cgoAllocMap
-	ref2a5f3ba8.proofs_ptr, cproofs_ptr_allocs = unpackSFilPoStProof(x.ProofsPtr)
-	allocs2a5f3ba8.Borrow(cproofs_ptr_allocs)
+	var cproof_allocs *cgoAllocMap
+	ref2a5f3ba8.proof, cproof_allocs = x.Proof.PassValue()
+	allocs2a5f3ba8.Borrow(cproof_allocs)
 
 	var cfaulty_sectors_len_allocs *cgoAllocMap
 	ref2a5f3ba8.faulty_sectors_len, cfaulty_sectors_len_allocs = (C.size_t)(x.FaultySectorsLen), cgoAllocsUnknown
@@ -2047,8 +2043,7 @@ func (x *FilGenerateWindowPoStResponse) Deref() {
 		return
 	}
 	x.ErrorMsg = packPCharString(x.ref2a5f3ba8.error_msg)
-	x.ProofsLen = (uint)(x.ref2a5f3ba8.proofs_len)
-	packSFilPoStProof(x.ProofsPtr, x.ref2a5f3ba8.proofs_ptr)
+	x.Proof = *NewFilPoStProofRef(unsafe.Pointer(&x.ref2a5f3ba8.proof))
 	x.FaultySectorsLen = (uint)(x.ref2a5f3ba8.faulty_sectors_len)
 	hxf69fe70 := (*sliceHeader)(unsafe.Pointer(&x.FaultySectorsPtr))
 	hxf69fe70.Data = unsafe.Pointer(x.ref2a5f3ba8.faulty_sectors_ptr)

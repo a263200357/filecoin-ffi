@@ -56,6 +56,54 @@ pub unsafe fn to_public_replica_info_map(
     Ok(map)
 }
 
+#[allow(clippy::type_complexity)]
+pub unsafe fn to_public_replica_infos_map(
+    replicas_ptr: *const fil_PublicReplicaInfo,
+    arr_ptr: *const libc::size_t,
+    arr_len: libc::size_t,
+) -> Result<Vec<BTreeMap<SectorId, PublicReplicaInfo>>> {
+
+    ensure!(!replicas_ptr.is_null(), "replicas_ptr must not be null");
+    ensure!(!arr_ptr.is_null(), "arr_ptr must not be null");
+
+    let mut replicas = Vec::new();
+    let mut replicas_len:usize = 0;
+    let mut public_replica_infos = Vec::new();
+
+    let arr = std::slice::from_raw_parts(arr_ptr, arr_len);
+
+    for replica_len in arr.iter() {
+        replicas_len += replica_len;
+    }
+
+    for ffi_info in from_raw_parts(replicas_ptr, replicas_len) {
+        replicas.push(PublicReplicaInfoTmp {
+            sector_id: ffi_info.sector_id,
+            registered_proof: ffi_info.registered_proof,
+            comm_r: ffi_info.comm_r,
+        });
+    }
+
+    let mut start = 0;
+    let mut end = 0;
+    for replica_len in arr.iter() {
+        let mut pub_replica_info: BTreeMap<SectorId, PublicReplicaInfo> = BTreeMap::new();
+        end += replica_len;
+        for index in start..end {
+            let PublicReplicaInfoTmp {
+                registered_proof,
+                comm_r,
+                sector_id,
+            } = replicas[index as usize];
+            pub_replica_info.insert(SectorId::from(sector_id), PublicReplicaInfo::new(registered_proof.into(), comm_r));
+        }
+        public_replica_infos.push(pub_replica_info);
+        start += replica_len;
+    }
+
+    Ok(public_replica_infos)
+}
+
 #[derive(Debug, Clone)]
 struct PrivateReplicaInfoTmp {
     pub registered_proof: fil_RegisteredPoStProof,
