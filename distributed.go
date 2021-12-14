@@ -3,7 +3,7 @@
 package ffi
 
 import (
-	"github.com/a263200357/filecoin-ffi/generated"
+	"github.com/mfdzh/filecoin-ffi/generated"
 	"github.com/pkg/errors"
 
 	spproof "fil_integrate/build/proof"

@@ -7,8 +7,8 @@ rust-fil-proofs improvements, which you can read about [here](https://github.com
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - add FauxRep to ffi package (#118) ([filecoin-project/filecoin-ffi#118](https://github.com/a263200357/filecoin-ffi/pull/118))
+- github.com/mfdzh/filecoin-ffi:
+  - add FauxRep to ffi package (#118) ([filecoin-project/filecoin-ffi#118](https://github.com/mfdzh/filecoin-ffi/pull/118))
 
 ### Contributors
 
@@ -24,9 +24,9 @@ function.
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - handle null pointer returned from fil_aggregate (#116) ([filecoin-project/filecoin-ffi#116](https://github.com/a263200357/filecoin-ffi/pull/116))
-  - 0.30.1 changelog (#114) ([filecoin-project/filecoin-ffi#114](https://github.com/a263200357/filecoin-ffi/pull/114))
+- github.com/mfdzh/filecoin-ffi:
+  - handle null pointer returned from fil_aggregate (#116) ([filecoin-project/filecoin-ffi#116](https://github.com/mfdzh/filecoin-ffi/pull/116))
+  - 0.30.1 changelog (#114) ([filecoin-project/filecoin-ffi#114](https://github.com/mfdzh/filecoin-ffi/pull/114))
 
 ### Contributors
 
@@ -43,11 +43,11 @@ updates (for the trusted setup participants).
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - update to rust-fil-proofs 4.0.2 (#113) ([filecoin-project/filecoin-ffi#113](https://github.com/a263200357/filecoin-ffi/pull/113))
-  - run the Rust tests before running the Go tests (#112) ([filecoin-project/filecoin-ffi#112](https://github.com/a263200357/filecoin-ffi/pull/112))
-  - Update master dependencies ([filecoin-project/filecoin-ffi#111](https://github.com/a263200357/filecoin-ffi/pull/111))
-  - update changelog for 0.30.0 release ([filecoin-project/filecoin-ffi#109](https://github.com/a263200357/filecoin-ffi/pull/109))
+- github.com/mfdzh/filecoin-ffi:
+  - update to rust-fil-proofs 4.0.2 (#113) ([filecoin-project/filecoin-ffi#113](https://github.com/mfdzh/filecoin-ffi/pull/113))
+  - run the Rust tests before running the Go tests (#112) ([filecoin-project/filecoin-ffi#112](https://github.com/mfdzh/filecoin-ffi/pull/112))
+  - Update master dependencies ([filecoin-project/filecoin-ffi#111](https://github.com/mfdzh/filecoin-ffi/pull/111))
+  - update changelog for 0.30.0 release ([filecoin-project/filecoin-ffi#109](https://github.com/mfdzh/filecoin-ffi/pull/109))
 - github.com/filecoin-project/specs-actors (v0.6.0 -> v0.6.1)
 
 ### Contributors
@@ -67,10 +67,10 @@ two new types - one for seal and one for PoSt) and an update to rust-fil-proofs
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - update to rust-fil-proofs 4.0.0 (#108) ([filecoin-project/filecoin-ffi#108](https://github.com/a263200357/filecoin-ffi/pull/108))
-  - specs-actors v0.6 ([filecoin-project/filecoin-ffi#107](https://github.com/a263200357/filecoin-ffi/pull/107))
-  - changelog for 0.28.0, 0.28.1, and 0.29.0 (#106) ([filecoin-project/filecoin-ffi#106](https://github.com/a263200357/filecoin-ffi/pull/106))
+- github.com/mfdzh/filecoin-ffi:
+  - update to rust-fil-proofs 4.0.0 (#108) ([filecoin-project/filecoin-ffi#108](https://github.com/mfdzh/filecoin-ffi/pull/108))
+  - specs-actors v0.6 ([filecoin-project/filecoin-ffi#107](https://github.com/mfdzh/filecoin-ffi/pull/107))
+  - changelog for 0.28.0, 0.28.1, and 0.29.0 (#106) ([filecoin-project/filecoin-ffi#106](https://github.com/mfdzh/filecoin-ffi/pull/106))
 - github.com/filecoin-project/specs-actors (v0.5.4-0.20200521014528-0df536f7e461 -> v0.6.0)
 
 ### Contributors
@@ -97,10 +97,10 @@ descriptor-leak, and (most importantly) updated to [v27 parameters and keys](htt
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - fix: update to filecoin-proofs-api v3.0.0 ([filecoin-project/filecoin-ffi#105](https://github.com/a263200357/filecoin-ffi/pull/105))
-  - explicitly close os.File to force release of file descriptor (#97) ([filecoin-project/filecoin-ffi#97](https://github.com/a263200357/filecoin-ffi/pull/97))
-  - fix: use stable 1.43.1 release ([filecoin-project/filecoin-ffi#102](https://github.com/a263200357/filecoin-ffi/pull/102))
+- github.com/mfdzh/filecoin-ffi:
+  - fix: update to filecoin-proofs-api v3.0.0 ([filecoin-project/filecoin-ffi#105](https://github.com/mfdzh/filecoin-ffi/pull/105))
+  - explicitly close os.File to force release of file descriptor (#97) ([filecoin-project/filecoin-ffi#97](https://github.com/mfdzh/filecoin-ffi/pull/97))
+  - fix: use stable 1.43.1 release ([filecoin-project/filecoin-ffi#102](https://github.com/mfdzh/filecoin-ffi/pull/102))
 
 ### Contributors
 
@@ -118,8 +118,8 @@ from crates.io instead of GitHub. No behavior changes.
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - fix: point to published filecoin-proofs-api crate ([filecoin-project/filecoin-ffi#104](https://github.com/a263200357/filecoin-ffi/pull/104))
+- github.com/mfdzh/filecoin-ffi:
+  - fix: point to published filecoin-proofs-api crate ([filecoin-project/filecoin-ffi#104](https://github.com/mfdzh/filecoin-ffi/pull/104))
 
 ### Contributors
 
@@ -135,9 +135,9 @@ merkle tree cache usage, [and more](https://github.com/filecoin-project/rust-fil
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - integrate rust-fil-proofs 2.0.0 release (#98) ([filecoin-project/filecoin-ffi#98](https://github.com/a263200357/filecoin-ffi/pull/98))
-  - release notes for 0.27.0 (#96) ([filecoin-project/filecoin-ffi#96](https://github.com/a263200357/filecoin-ffi/pull/96))
+- github.com/mfdzh/filecoin-ffi:
+  - integrate rust-fil-proofs 2.0.0 release (#98) ([filecoin-project/filecoin-ffi#98](https://github.com/mfdzh/filecoin-ffi/pull/98))
+  - release notes for 0.27.0 (#96) ([filecoin-project/filecoin-ffi#96](https://github.com/mfdzh/filecoin-ffi/pull/96))
 
 ### Contributors
 
@@ -156,9 +156,9 @@ This release migrates from specs-actors 0.4.1 to 0.5.4.
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - consume new abi.SealVerifyInfo structure (#89) ([filecoin-project/filecoin-ffi#89](https://github.com/a263200357/filecoin-ffi/pull/89))
-  - add changelog and changelog generator (#95) ([filecoin-project/filecoin-ffi#95](https://github.com/a263200357/filecoin-ffi/pull/95))
+- github.com/mfdzh/filecoin-ffi:
+  - consume new abi.SealVerifyInfo structure (#89) ([filecoin-project/filecoin-ffi#89](https://github.com/mfdzh/filecoin-ffi/pull/89))
+  - add changelog and changelog generator (#95) ([filecoin-project/filecoin-ffi#95](https://github.com/mfdzh/filecoin-ffi/pull/95))
 - github.com/filecoin-project/go-bitfield (v0.0.0-20200416002808-b3ee67ec9060 -> v0.0.1):
   - zero out bitfields during subtraction when they end up empty ([filecoin-project/go-bitfield#4](https://github.com/filecoin-project/go-bitfield/pull/4))
   - Create go.yml
@@ -204,10 +204,10 @@ the CGO call returned).
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - don't let Go garbage collect FD until FFI call returns ([filecoin-project/filecoin-ffi#84](https://github.com/a263200357/filecoin-ffi/pull/84))
+- github.com/mfdzh/filecoin-ffi:
+  - don't let Go garbage collect FD until FFI call returns ([filecoin-project/filecoin-ffi#84](https://github.com/mfdzh/filecoin-ffi/pull/84))
   - fix: error if there is already a logger
-  - add winning PoSt for 64 GiB (#93) ([filecoin-project/filecoin-ffi#93](https://github.com/a263200357/filecoin-ffi/pull/93))
+  - add winning PoSt for 64 GiB (#93) ([filecoin-project/filecoin-ffi#93](https://github.com/mfdzh/filecoin-ffi/pull/93))
 
 ### Contributors
 
@@ -226,12 +226,12 @@ a single byte array) and various fixes for bellperson and neptune Rust crates.
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - Update deps revisited ([filecoin-project/filecoin-ffi#91](https://github.com/a263200357/filecoin-ffi/pull/91))
-  - newest upstream (#88) ([filecoin-project/filecoin-ffi#88](https://github.com/a263200357/filecoin-ffi/pull/88))
-  - update rust-filecoin-proofs-api to include PoSt fix (#87) ([filecoin-project/filecoin-ffi#87](https://github.com/a263200357/filecoin-ffi/pull/87))
-  - upgrade to specs-actors 0.4.1 (64GiB sector support) ([filecoin-project/filecoin-ffi#85](https://github.com/a263200357/filecoin-ffi/pull/85))
-  - Upgrade to specs-actors v0.3.0 (#81) ([filecoin-project/filecoin-ffi#81](https://github.com/a263200357/filecoin-ffi/pull/81))
+- github.com/mfdzh/filecoin-ffi:
+  - Update deps revisited ([filecoin-project/filecoin-ffi#91](https://github.com/mfdzh/filecoin-ffi/pull/91))
+  - newest upstream (#88) ([filecoin-project/filecoin-ffi#88](https://github.com/mfdzh/filecoin-ffi/pull/88))
+  - update rust-filecoin-proofs-api to include PoSt fix (#87) ([filecoin-project/filecoin-ffi#87](https://github.com/mfdzh/filecoin-ffi/pull/87))
+  - upgrade to specs-actors 0.4.1 (64GiB sector support) ([filecoin-project/filecoin-ffi#85](https://github.com/mfdzh/filecoin-ffi/pull/85))
+  - Upgrade to specs-actors v0.3.0 (#81) ([filecoin-project/filecoin-ffi#81](https://github.com/mfdzh/filecoin-ffi/pull/81))
 - github.com/filecoin-project/go-amt-ipld (v2.0.1-0.20200131012142-05d80eeccc5e -> v2.0.1-0.20200424220931-6263827e49f2):
   - implement method to get first index in amt ([filecoin-project/go-amt-ipld#11](https://github.com/filecoin-project/go-amt-ipld/pull/11))
   - implement ForEachAt method to support iteration starting at a given i… ([filecoin-project/go-amt-ipld#10](https://github.com/filecoin-project/go-amt-ipld/pull/10))
@@ -281,9 +281,9 @@ previously sharing Go memory with C, resulting in some errors when running with
 
 ### Changelog
 
-- github.com/a263200357/filecoin-ffi:
-  - update to v26 Groth parameters (#83) ([filecoin-project/filecoin-ffi#83](https://github.com/a263200357/filecoin-ffi/pull/83))
-  - handle allocations for problematic structs to avoid sharing pointers-to-pointers with C (from Go) (#82) ([filecoin-project/filecoin-ffi#82](https://github.com/a263200357/filecoin-ffi/pull/82))
+- github.com/mfdzh/filecoin-ffi:
+  - update to v26 Groth parameters (#83) ([filecoin-project/filecoin-ffi#83](https://github.com/mfdzh/filecoin-ffi/pull/83))
+  - handle allocations for problematic structs to avoid sharing pointers-to-pointers with C (from Go) (#82) ([filecoin-project/filecoin-ffi#82](https://github.com/mfdzh/filecoin-ffi/pull/82))
 
 ### Contributors
 

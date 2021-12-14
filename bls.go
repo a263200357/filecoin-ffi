@@ -7,7 +7,7 @@ package ffi
 // #include "./filcrypto.h"
 import "C"
 import (
-	"github.com/a263200357/filecoin-ffi/generated"
+	"github.com/mfdzh/filecoin-ffi/generated"
 )
 
 // Hash computes the digest of a message

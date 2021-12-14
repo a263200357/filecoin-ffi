@@ -1,4 +1,4 @@
-module github.com/a263200357/filecoin-ffi
+module github.com/mfdzh/filecoin-ffi
 
 go 1.13
 
@@ -11,4 +11,4 @@ require (
 	modernc.org/golex v1.0.1 // indirect
 )
 
-replace github.com/a263200357/filecoin-ffi/generated => ./genereted
+replace github.com/mfdzh/filecoin-ffi/generated => ./genereted

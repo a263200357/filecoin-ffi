@@ -76,10 +76,10 @@ the filecoin-ffi project, you need to do a few things:
 Get the source, add this repo as a submodule to your repo, build it and point to it:
 
 ```shell
-$ go get github.com/a263200357/filecoin-ffi
-$ git submodule add https://github.com/a263200357/filecoin-ffi.git extern/filecoin-ffi
+$ go get github.com/mfdzh/filecoin-ffi
+$ git submodule add https://github.com/mfdzh/filecoin-ffi.git extern/filecoin-ffi
 $ make -C extern/filecoin-ffi
-$ go mod edit -replace=github.com/a263200357/filecoin-ffi=./extern/filecoin-ffi
+$ go mod edit -replace=github.com/mfdzh/filecoin-ffi=./extern/filecoin-ffi
 ```
 
 ## Updating CGO Bindings

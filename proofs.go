@@ -20,7 +20,7 @@ import (
 	"fil_integrate/build/state-types/abi"
 	spproof "fil_integrate/build/proof"
 
-	"github.com/a263200357/filecoin-ffi/generated"
+	"github.com/mfdzh/filecoin-ffi/generated"
 )
 
 // VerifySeal returns true if the sealing operation from which its inputs were
